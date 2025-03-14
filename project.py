@@ -1,15 +1,17 @@
 from simple_blogger import Journalist
 from simple_blogger.generators.OpenAIGenerator import OpenAITextGenerator
+from simple_blogger.senders.TelegramSender import TelegramSender
+from simple_blogger.senders.InstagramSender import InstagramSender
 from datetime import datetime
 
 class Project(Journalist):
     def __init__(self, **kwargs):
         super().__init__(            
-            review_chat_id=-1002374309134,
             first_post_date=datetime(2025, 1, 1),
             text_generator=OpenAITextGenerator(),
             topic_word_limit=100,
-            send_text_with_image=True,
+            reviewer=TelegramSender(),
+            senders=[TelegramSender(channel_id=f"@the_force_nexus"), InstagramSender(channel_token_name='FORCE_NEXUS_THE_TOKEN')],
             **kwargs)
 
     def _get_category_folder(self, task):
